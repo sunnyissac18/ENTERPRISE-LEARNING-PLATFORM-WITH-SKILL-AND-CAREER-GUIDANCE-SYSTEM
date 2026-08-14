@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface LearningPathRepository extends JpaRepository<LearningPath, UUID> {
 
-    
+
 }

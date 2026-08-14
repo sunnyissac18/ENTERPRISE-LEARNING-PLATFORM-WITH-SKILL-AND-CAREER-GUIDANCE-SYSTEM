@@ -16,6 +16,6 @@ public class LearningPathDto {
     private UUID pathId;
     private String pathName;
     private String desc;
-    private String progress;
-    private String active;
+    private Integer progress;
+    private Boolean active;
 }

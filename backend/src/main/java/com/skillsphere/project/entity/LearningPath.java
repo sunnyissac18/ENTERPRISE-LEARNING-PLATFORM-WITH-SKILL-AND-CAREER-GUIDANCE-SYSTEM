@@ -21,7 +21,7 @@ public class LearningPath {
     @Column(nullable = false)
     private String pathName;
     private String desc;
-    private String progress;
-    private String active;
+    private Integer progress;
+    private Boolean active;
 
 }
