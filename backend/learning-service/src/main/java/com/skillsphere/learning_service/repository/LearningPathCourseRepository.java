@@ -1,0 +1,15 @@
+package com.skillsphere.learning_service.repository;
+
+
+import com.skillsphere.learning_service.entity.LearningPathCourse;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface LearningPathCourseRepository extends JpaRepository<LearningPathCourse, UUID> {
+
+    List<LearningPathCourse> findByLearningPathPathIdOrderBySequenceOrder(UUID pathId);
+}
