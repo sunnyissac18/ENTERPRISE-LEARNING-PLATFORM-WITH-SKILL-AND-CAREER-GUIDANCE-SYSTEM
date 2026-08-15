@@ -19,7 +19,7 @@ public class CourseDto {
     private String title;
     private String description;
     private Integer duration;
-    private Course.CourseType type;
+    private String type;
     private String instructor;
     private Double rating;
     private Boolean active;

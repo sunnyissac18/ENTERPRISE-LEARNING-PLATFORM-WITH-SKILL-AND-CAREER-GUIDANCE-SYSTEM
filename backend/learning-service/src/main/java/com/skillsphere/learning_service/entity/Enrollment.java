@@ -14,16 +14,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Enrollment{
- @Id
- @GeneratedValue
- private UUID enrollmentId;
- private UUID empId;
- @ManyToOne
- @JoinColumn(name = "course_id", nullable = false)
- private Course course;
- private LocalDateTime enrolledAt;
- private Integer progress;
- private Boolean completed;
- private Float score;
- private LocalDateTime completedAt;
+
+  @Id
+  @GeneratedValue
+  private UUID enrollmentId;
+
+  private UUID empId;
+
+  @ManyToOne
+  @JoinColumn(name = "course_id", nullable = false)
+  private Course course;
+
+  private LocalDateTime enrolledAt;
+  private Integer progress;
+  private Boolean completed;
+  private Float score;
+  private LocalDateTime completedAt;
 }

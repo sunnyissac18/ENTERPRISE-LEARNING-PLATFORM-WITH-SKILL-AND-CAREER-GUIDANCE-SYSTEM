@@ -20,8 +20,10 @@ public class LearningPath {
 
     @Column(nullable = false)
     private String pathName;
+
     @Column(name = "description")
     private String desc;
+
     private Integer progress;
     private Boolean active;
 

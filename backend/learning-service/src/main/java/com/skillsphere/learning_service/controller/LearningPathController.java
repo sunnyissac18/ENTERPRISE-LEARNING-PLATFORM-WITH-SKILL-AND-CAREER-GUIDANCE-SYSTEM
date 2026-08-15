@@ -20,6 +20,7 @@ public class LearningPathController {
     @PostMapping
     public LearningPath createPath(
             @RequestBody LearningPath path) {
+
         return learningPathService.createPath(path);
     }
 
@@ -28,6 +29,7 @@ public class LearningPathController {
             @PathVariable UUID pathId,
             @PathVariable UUID courseId,
             @RequestParam Integer sequence) {
+
         return learningPathService.addCourseToPath(
                 pathId, courseId, sequence);
     }
@@ -35,6 +37,7 @@ public class LearningPathController {
     @GetMapping("/{pathId}/courses")
     public List<LearningPathCourse> getCourses(
             @PathVariable UUID pathId) {
+
         return learningPathService.getPathCourses(pathId);
 
     }

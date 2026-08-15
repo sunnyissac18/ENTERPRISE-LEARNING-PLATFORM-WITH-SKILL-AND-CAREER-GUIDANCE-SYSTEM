@@ -25,8 +25,7 @@ public class CourseService {
 
     public CourseDto getCourseById(UUID courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                .orElseThrow(() -> new RuntimeException("Course not found"));
         return toDto(course);
     }
 
@@ -35,7 +34,7 @@ public class CourseService {
                 .title(dto.getTitle())
                 .description(dto.getDescription())
                 .duration(dto.getDuration())
-                .type(dto.getType())
+                .type(Course.CourseType.valueOf(dto.getType()))
                 .instructor(dto.getInstructor())
                 .rating(dto.getRating())
                 .active(true)
@@ -48,12 +47,13 @@ public class CourseService {
     }
 
     private CourseDto toDto(Course course) {
+
         return CourseDto.builder()
                 .courseId(course.getCourseId())
                 .title(course.getTitle())
                 .description(course.getDescription())
                 .duration(course.getDuration())
-                .type(course.getType())
+                .type(course.getType().name())
                 .instructor(course.getInstructor())
                 .rating(course.getRating())
                 .active(course.getActive())

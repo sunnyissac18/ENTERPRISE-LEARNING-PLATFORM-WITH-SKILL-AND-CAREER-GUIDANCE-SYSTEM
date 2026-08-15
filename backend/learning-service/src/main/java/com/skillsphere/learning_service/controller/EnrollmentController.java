@@ -13,13 +13,16 @@ import java.util.UUID;
 @RequestMapping("/api/learning/enrollments")
 @RequiredArgsConstructor
 public class EnrollmentController {
+
     private final EnrollmentService enrollmentService;
+
     @PostMapping
     public EnrollmentDto enroll(
             @RequestParam UUID empId,
             @RequestParam UUID courseId) {
         return enrollmentService.enroll(empId, courseId);
     }
+
     @GetMapping("/employee/{empId}")
     public List<EnrollmentDto> getEmployeeEnrollments(
             @PathVariable UUID empId) {

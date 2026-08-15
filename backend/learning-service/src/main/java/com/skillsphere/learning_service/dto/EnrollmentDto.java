@@ -17,7 +17,7 @@ public class EnrollmentDto {
 
     private UUID enrollmentId;
     private UUID empId;
-    private Course course;
+    private UUID courseId;
     private LocalDateTime enrolledAt;
     private Integer progress;
     private Boolean completed;

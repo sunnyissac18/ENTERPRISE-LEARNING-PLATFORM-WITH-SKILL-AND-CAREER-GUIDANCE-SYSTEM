@@ -22,8 +22,8 @@ public class EnrollmentService {
 
     public EnrollmentDto enroll(UUID empId, UUID courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
         Enrollment enrollment = Enrollment.builder()
                 .empId(empId)
                 .course(course)
@@ -44,17 +44,16 @@ public class EnrollmentService {
     }
 
     private EnrollmentDto toDto(Enrollment e) {
+
         return EnrollmentDto.builder()
                 .enrollmentId(e.getEnrollmentId())
                 .empId(e.getEmpId())
-                .course(e.getCourse())
+                .courseId(e.getCourse().getCourseId())
                 .enrolledAt(e.getEnrolledAt())
                 .progress(e.getProgress())
                 .completed(e.getCompleted())
                 .score(e.getScore())
                 .completedAt(e.getCompletedAt())
                 .build();
-
-
     }
 }

@@ -43,6 +43,7 @@ public class LearningPathService {
         pathCourseRepository.save(pathCourse);
         return path;
     }
+
     public List<LearningPathCourse> getPathCourses(UUID pathId) {
         return pathCourseRepository.findByLearningPathPathIdOrderBySequenceOrder(pathId);
     }

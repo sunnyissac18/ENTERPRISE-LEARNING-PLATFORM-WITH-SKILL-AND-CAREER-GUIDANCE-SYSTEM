@@ -19,15 +19,14 @@ public class ProgressService {
             UUID enrollmentId, Integer progress) {
 
         if (progress < 0 || progress > 100) {
-            throw new IllegalArgumentException(
-                    "Progress must be between 0 and 100");
+            throw new IllegalArgumentException("Progress must be between 0 and 100");
         }
 
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Enrollment not found"));
+                .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
         enrollment.setProgress(progress);
+
         if (progress == 100) {
             enrollment.setCompleted(true);
             enrollment.setCompletedAt(LocalDateTime.now());
@@ -37,13 +36,11 @@ public class ProgressService {
 
     public Enrollment submitAssessment(UUID enrollmentId, Float score) {
         if (score < 0 || score > 100) {
-            throw new IllegalArgumentException(
-                    "Score must be between 0 and 100");
+            throw new IllegalArgumentException("Score must be between 0 and 100");
         }
 
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Enrollment not found"));
+                .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
         enrollment.setScore(score);
         return enrollmentRepository.save(enrollment);
@@ -52,8 +49,7 @@ public class ProgressService {
     public Enrollment completeCourse(UUID enrollmentId) {
 
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Enrollment not found"));
+                .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
         enrollment.setProgress(100);
         enrollment.setCompleted(true);

@@ -20,14 +20,17 @@ public class CourseController {
     public List<CourseDto> getAllCourses() {
         return courseService.getAllCourses();
     }
+
     @GetMapping("/{id}")
     public CourseDto getCourse(@PathVariable UUID id) {
         return courseService.getCourseById(id);
     }
+
     @PostMapping
     public CourseDto createCourse(@RequestBody CourseDto dto) {
         return courseService.createCourse(dto);
     }
+
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable UUID id) {
         courseService.deleteCourse(id);
