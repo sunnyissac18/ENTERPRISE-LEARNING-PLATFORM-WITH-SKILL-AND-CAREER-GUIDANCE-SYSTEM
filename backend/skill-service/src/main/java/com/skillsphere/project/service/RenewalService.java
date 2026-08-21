@@ -1,5 +1,6 @@
 package com.skillsphere.project.service;
 
+import com.skillsphere.project.config.KafkaCertificationProducer;
 import com.skillsphere.project.dto.RenewalDTO;
 import com.skillsphere.project.entity.Certification;
 import com.skillsphere.project.entity.CertificationRenewal;
@@ -19,6 +20,7 @@ public class RenewalService {
     private final CertificationRepository certificationRepository;
     private final CertificationRenewalRepository renewalRepository;
     private final CertificationAuditService auditService;
+    private final KafkaCertificationProducer kafkaProducer;
 
     public RenewalDTO requestRenewal(UUID certificationId,
                                      String requestedBy) {
@@ -41,6 +43,12 @@ public class RenewalService {
                 cert.getEmployee().getEmpId(),
                 "RENEWAL_REQUESTED",
                 requestedBy);
+
+        kafkaProducer.sendRenewalEvent(
+                "Certification renewal requested: " + cert.getName()
+                 + " for employee " + cert.getEmployee().getFullName()
+        );
+
         return toDTO(saved);
     }
 
