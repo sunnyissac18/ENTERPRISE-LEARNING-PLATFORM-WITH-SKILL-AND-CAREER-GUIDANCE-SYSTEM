@@ -23,9 +23,11 @@ public class Certification {
     @JoinColumn(name="emp_id",nullable = false)
     private Employee employee;
 
-    @Column(name = "certification_name")
+    @Column(nullable = false)
     private String name;
 
+    private String issuingOrganization;
+    private String credentialId;
     private LocalDate issued;
     private LocalDate expiry;
 

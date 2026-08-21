@@ -1,24 +1,26 @@
 package com.skillsphere.project.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class CertificationDto {
 
     private UUID certId;
     private UUID empId;
-    private String certificationName;
-    private UUID skillId;
-    private LocalDate issueDate;
-    private LocalDate expiryDate;
+    private String employeeName;
+    private String name;
+    private String issuingOrganization;
+    private String credentialId;
+    private LocalDate issued;
+    private LocalDate expiry;
+    private String status;
 
 }
