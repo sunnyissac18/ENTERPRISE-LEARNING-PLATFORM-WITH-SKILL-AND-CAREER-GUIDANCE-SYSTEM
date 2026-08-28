@@ -129,7 +129,7 @@ public class CertificationService {
         return CertificationDto.builder()
                 .certId(certification.getCertId())
                 .empId(certification.getEmployee().getEmpId())
-                .employeeName(certification.getName())
+                .employeeName(certification.getEmployee().getFullName())
                 .name(certification.getName())
                 .issuingOrganization(certification.getIssuingOrganization())
                 .credentialId(certification.getCredentialId())
