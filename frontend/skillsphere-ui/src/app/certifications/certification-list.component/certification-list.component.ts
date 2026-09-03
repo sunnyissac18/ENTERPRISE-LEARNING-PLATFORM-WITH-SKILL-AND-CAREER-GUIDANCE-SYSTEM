@@ -7,6 +7,7 @@ import { CertificationService } from '../certification.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './certification-list.component.html',
+  styleUrls: ['./certification-list.component.css'],
 })
 
 export class CertificationListComponent implements OnInit {

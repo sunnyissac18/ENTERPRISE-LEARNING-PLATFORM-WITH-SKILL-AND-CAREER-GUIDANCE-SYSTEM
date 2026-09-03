@@ -1,17 +1,55 @@
 <div class="container">
-  <h2>Certification Management</h2>
+
+  <div class="page-header">
+    <h2>Certification Management</h2>
+  </div>
+
+  <div *ngIf="certifications.length === 0" class="empty-state">
+    <div class="empty-icon">📋</div>
+    <p>No certifications found for this employee.</p>
+  </div>
 
   <div *ngFor="let cert of certifications" class="certification-card">
-    <h3>{{ cert.name }}</h3>
-    <p>Employee: {{ cert.employeeName }}</p>
-    <p>Issuer: {{ cert.issuingOrganization }}</p>
-    <p>Issued: {{ cert.issued }}</p>
-    <p>Expiry: {{ cert.expiry }}</p>
-    <p>
-      Status: <strong>{{ cert.status }}</strong>
-    </p>
-    <p>Actions:</p>
-    <p>   [Renew] [view]  [report]</p>
+    <h3 class="cert-name">{{ cert.name }}</h3>
+    <div class="cert-meta">
+      <div class="meta-item">
+        <span class="meta-label">Employee</span>
+        <span class="meta-value">{{ cert.employeeName }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Issuer</span>
+        <span class="meta-value">{{ cert.issuingOrganization }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Issued On</span>
+        <span class="meta-value">{{ cert.issued }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Expires On</span>
+        <span class="meta-value">{{ cert.expiry }}</span>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="card-footer">
+      <span
+        class="status-badge"
+        [ngClass]="{
+          'valid':   cert.status === 'VALID',
+          'expired': cert.status === 'EXPIRED',
+          'expiring': cert.status === 'PENDING_RENEWAL'
+        }">
+        {{ cert.status }}
+      </span>
+
+      <div class="action-buttons">
+        <button class="btn btn-renew"> Renew</button>
+        <button class="btn btn-view"> View</button>
+        <button class="btn btn-report"> Report</button>
+      </div>
+    </div>
 
   </div>
+
 </div>

@@ -1,0 +1,181 @@
+
+.container {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  
+}
+
+.container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 28px;
+  border-bottom: 3px solid #4a6cf7;
+  padding-bottom: 10px;
+}
+
+.certification-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.certification-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.cert-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #888;
+}
+
+.meta-value {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+
+.divider {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 14px 0;
+}
+
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-badge.valid {
+  background-color: #e6f9f0;
+  color: #1b9e5f;
+  border:  solid #a3e4c4;
+}
+
+.status-badge.expired {
+  background-color: #fdecea;
+  color: #c0392b;
+  border:  solid #f5b7b1;
+}
+
+.status-badge.expiring {
+  background-color: #fff8e6;
+  color: #b7770d;
+  border:  solid #f9d98f;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-renew {
+  background-color: #4a6cf7;
+  color: #ffffff;
+}
+
+.btn-renew:hover {
+  background-color: #3558e0;
+}
+
+.btn-view {
+  background-color: #e8edff;
+  color: #6683fa;
+}
+
+.btn-view:hover {
+  background-color: #d0daff;
+}
+
+.btn-report {
+  background-color: #f2f2f2;
+  color: #6683fa;
+}
+
+.btn-report:hover {
+  background-color: #e0e0e0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+}
+
+.empty-state .empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+
+.page-header h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 1.7rem;
+  color: #1a1a2e;
+}

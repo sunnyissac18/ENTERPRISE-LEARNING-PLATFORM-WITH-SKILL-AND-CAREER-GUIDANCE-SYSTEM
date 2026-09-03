@@ -5,25 +5,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-expiring-certifications',
   templateUrl: './expiring-certifications.component.html',
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
-
-export class ExpiringCertificationsComponent
-  implements OnInit {
-
+export class ExpiringCertificationsComponent implements OnInit {
   certifications: any[] = [];
 
-  constructor(
-    private certificationService: CertificationService
-  ) {}
+  constructor(private certificationService: CertificationService) {}
 
   ngOnInit(): void {
-
-    this.certificationService
-      .getExpiring()
-      .subscribe((data: any) => {
-        this.certifications = data;
-      });
-
+    this.certificationService.getExpiring().subscribe((data: any) => {
+      this.certifications = data;
+    });
   }
 }
