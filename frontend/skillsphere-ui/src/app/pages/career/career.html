@@ -1,0 +1,197 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      @if (isEmployee) {
+        <span class="eyebrow">MY CAREER</span>
+        <h1>Career Planning</h1>
+        <p>Define your goals, track progress, and map your path to promotion.</p>
+      } @else {
+        <span class="eyebrow">CAREER MANAGEMENT</span>
+        <h1>Career Planning</h1>
+        <p>View career progression and promotion readiness across the organization.</p>
+      }
+    </div>
+  </div>
+
+  @if (loadingPlans) {
+    <div class="loading">Loading career plans...</div>
+  }
+
+  <!-- ====================================== -->
+  <!-- EMPLOYEE VIEW (Read-Only Card)         -->
+  <!-- ====================================== -->
+
+  @if (!loadingPlans && isEmployee && !isEditing && myPlan) {
+    <div class="career-card employee-card">
+      <div class="card-header-actions">
+        <h2>My Career Plan</h2>
+        <button class="btn-secondary outline" (click)="editPlan()">Edit Plan</button>
+      </div>
+      
+      <p class="role-path">
+        {{ myPlan.currentRole }}
+        <span class="arrow">→</span>
+        <strong>{{ myPlan.targetRole }}</strong>
+      </p>
+
+      <div class="progress-stat">
+        <span>Progress: {{ myPlan.progress }}%</span>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="myPlan.progress"></div>
+        </div>
+      </div>
+
+      <div class="meta-data">
+        <p>
+          <strong>Skill Gaps:</strong>
+          {{ myPlan.skillGaps || 'No major gaps' }}
+        </p>
+        <p>
+          <strong>Mentor:</strong>
+          {{ myPlan.mentor || 'None assigned' }}
+        </p>
+        <p>
+          <strong>Training:</strong>
+          {{ myPlan.trainingPlan || 'None specified' }}
+        </p>
+      </div>
+      
+      <hr>
+
+      <div class="score-footer">
+        <div class="score">
+          <span>Score</span>
+          <strong>{{ myPlan.promotionScore }}</strong>
+        </div>
+        <span *ngIf="myPlan.promotionEligible" class="eligible-badge">Promotion Eligible</span>
+      </div>
+    </div>
+  }
+
+  <!-- ====================================== -->
+  <!-- EMPLOYEE VIEW (Editable Form)          -->
+  <!-- ====================================== -->
+
+  @if (!loadingPlans && isEmployee && isEditing) {
+    <div class="career-form-container">
+      
+      <div class="score-card" *ngIf="myPlan">
+        <div class="score-header">
+          <h3>Current Promotion Score</h3>
+          <span class="badge" [ngClass]="{'eligible': myPlan.promotionEligible, 'ineligible': !myPlan.promotionEligible}">
+            {{ myPlan.promotionEligible ? 'Promotion Eligible' : 'Needs Development' }}
+          </span>
+        </div>
+        <div class="score-value">{{ myPlan.promotionScore || 0 }} / 100</div>
+        <p class="score-hint">Your score is automatically calculated based on progress (up to 60%), closed skill gaps (20%), and active training plans (20%). A score of 80 or above makes you eligible for promotion.</p>
+      </div>
+
+      <form [formGroup]="careerForm" (ngSubmit)="savePlan()" class="styled-form">
+        <div class="form-grid">
+          
+          <div class="form-group">
+            <label for="currentRole">Current Role *</label>
+            <input id="currentRole" type="text" formControlName="currentRole" placeholder="e.g. Software Developer">
+          </div>
+
+          <div class="form-group">
+            <label for="targetRole">Target Role *</label>
+            <input id="targetRole" type="text" formControlName="targetRole" placeholder="e.g. Senior Developer">
+          </div>
+
+        </div>
+
+        <div class="form-group progress-group">
+          <label for="progress">
+            Progress to Target Role: <strong>{{ careerForm.get('progress')?.value }}%</strong>
+          </label>
+          <input id="progress" type="range" min="0" max="100" step="5" formControlName="progress" class="slider">
+          <div class="progress-bar-preview">
+             <div class="progress-fill" [style.width.%]="careerForm.get('progress')?.value"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="skillGaps">Skill Gaps (Leave blank if fully proficient)</label>
+          <textarea id="skillGaps" formControlName="skillGaps" placeholder="e.g. System Design, Cloud Architecture" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="trainingPlan">Training Plan</label>
+          <textarea id="trainingPlan" formControlName="trainingPlan" placeholder="What are you learning to close the gaps?" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="mentor">Mentor Name</label>
+          <input id="mentor" type="text" formControlName="mentor" placeholder="Who is guiding your career?">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" *ngIf="myPlan" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="careerForm.invalid || careerForm.pristine || isSaving">
+            {{ isSaving ? 'Saving...' : (myPlan ? 'Update Plan' : 'Create Plan') }}
+          </button>
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+
+      </form>
+    </div>
+  }
+
+  <!-- ====================================== -->
+  <!-- MANAGEMENT VIEW (Read-only Grid)       -->
+  <!-- ====================================== -->
+
+  @if (!loadingPlans && !isEmployee) {
+    <div class="cards">
+      <div class="career-card" *ngFor="let plan of plans">
+        <h2>{{ plan.employeeName }}</h2>
+        
+        <p class="role-path">
+          {{ plan.currentRole }}
+          <span class="arrow">→</span>
+          <strong>{{ plan.targetRole }}</strong>
+        </p>
+  
+        <div class="progress-stat">
+          <span>Progress: {{ plan.progress }}%</span>
+          <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="plan.progress"></div>
+          </div>
+        </div>
+  
+        <div class="meta-data">
+          <p>
+            <strong>Skill Gaps:</strong>
+            {{ plan.skillGaps || 'No major gaps' }}
+          </p>
+          <p>
+            <strong>Mentor:</strong>
+            {{ plan.mentor || 'None assigned' }}
+          </p>
+          <p>
+            <strong>Training:</strong>
+            {{ plan.trainingPlan || 'None specified' }}
+          </p>
+        </div>
+        
+        <hr>
+
+        <div class="score-footer">
+          <div class="score">
+            <span>Score</span>
+            <strong>{{ plan.promotionScore }}</strong>
+          </div>
+          <span *ngIf="plan.promotionEligible" class="eligible-badge">Promotion Eligible</span>
+        </div>
+      </div>
+      
+      <div *ngIf="plans.length === 0" class="empty-state">
+        No career plans found in the organization.
+      </div>
+    </div>
+  }
+
+</div>

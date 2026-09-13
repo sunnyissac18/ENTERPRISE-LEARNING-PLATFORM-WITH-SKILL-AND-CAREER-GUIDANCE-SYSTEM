@@ -1,1 +1,291 @@
-<p>enrollment works!</p>
+<section class="enrollment-page">
+
+  <!-- Back -->
+  <a routerLink="/learning/courses" class="back-link">
+    ← Back to Courses
+  </a>
+
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading">
+      Loading enrollment...
+    </div>
+  }
+
+
+  <!-- Error -->
+  @if (error && !loading) {
+    <div class="error-card">
+      <h2>Unable to load enrollment</h2>
+      <p>We couldn't retrieve the enrollment details.</p>
+      <button type="button" (click)="retry()">Retry</button>
+    </div>
+  }
+
+
+  <!-- Enrollment -->
+  @if (!loading && !error && enrollment) {
+
+    <div class="enrollment-layout">
+
+      <!-- ============================= -->
+      <!-- COURSE INFORMATION            -->
+      <!-- ============================= -->
+
+      <div class="course-card">
+
+        <span class="course-type">
+          {{ enrollment.course?.type || 'COURSE' }}
+        </span>
+
+        <h1>{{ enrollment.course?.title || 'Course' }}</h1>
+
+        <p class="description">
+          {{ enrollment.course?.description || '—' }}
+        </p>
+
+        <div class="course-meta">
+
+          <div>
+            <span>Instructor</span>
+            <strong>{{ enrollment.course?.instructor || '—' }}</strong>
+          </div>
+
+          <div>
+            <span>Duration</span>
+            <strong>{{ enrollment.course?.duration || 0 }} hours</strong>
+          </div>
+
+          <div>
+            <span>Rating</span>
+            <strong>★ {{ enrollment.course?.rating ?? '—' }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ============================= -->
+      <!-- ENROLLMENT STATUS CARD        -->
+      <!-- ============================= -->
+
+      <div class="status-card">
+
+        <div class="success-icon">✓</div>
+
+        @if (enrollment.completed) {
+          <h2>Course Completed</h2>
+          <p>
+            <strong>{{ enrollment.course?.title || 'This course' }}</strong>
+            has been successfully completed.
+          </p>
+        } @else {
+          @if (isEmployee) {
+            <h2>Enrollment Successful</h2>
+            <p>You are enrolled and ready to start learning.</p>
+          } @else {
+            <h2>Enrollment Details</h2>
+            <p>Review progress and assessment for this enrollment.</p>
+          }
+        }
+
+
+        <!-- ============================= -->
+        <!-- PROGRESS (read-only display)  -->
+        <!-- ============================= -->
+
+        <div class="progress-section">
+
+          <div class="progress-header">
+            <span>Progress</span>
+            <strong>{{ enrollment.progress ?? 0 }}%</strong>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-value"
+              [style.width.%]="enrollment.progress ?? 0"
+            ></div>
+          </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- SET PROGRESS                  -->
+        <!-- Admin / Training Manager only -->
+        <!-- ============================= -->
+
+        @if (canManageProgress() && !enrollment.completed) {
+
+          <div class="admin-control">
+
+            <label for="progress">Set Progress (%)</label>
+
+            <div class="control-row">
+
+              <input
+                id="progress"
+                type="number"
+                min="0"
+                max="100"
+                [(ngModel)]="progressValue"
+              />
+
+              <button
+                type="button"
+                (click)="updateProgress()"
+                [disabled]="updatingProgress"
+              >
+                {{ updatingProgress ? 'Updating...' : 'Update Progress' }}
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ============================= -->
+        <!-- ASSESSMENT SCORE (display)    -->
+        <!-- ============================= -->
+
+        <div class="score-section">
+          <span>Assessment Score</span>
+          <strong>{{ enrollment.score ?? 0 }}%</strong>
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- SET ASSESSMENT SCORE          -->
+        <!-- Admin / Training Manager only -->
+        <!-- ============================= -->
+
+        @if (canManageProgress()) {
+
+          <div class="assessment-control">
+
+            <label for="score">Set Assessment Score</label>
+
+            <div class="control-row">
+
+              <input
+                id="score"
+                type="number"
+                min="0"
+                max="100"
+                [(ngModel)]="scoreValue"
+              />
+
+              <button
+                type="button"
+                (click)="submitAssessment()"
+                [disabled]="submittingScore"
+              >
+                {{ submittingScore ? 'Submitting...' : 'Submit Score' }}
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ============================= -->
+        <!-- COMPLETE COURSE               -->
+        <!-- Admin / Training Manager      -->
+        <!-- ============================= -->
+
+        @if (
+          canManageProgress() &&
+          !enrollment.completed &&
+          enrollment.progress >= 100 &&
+          (enrollment.score ?? 0) > 0
+        ) {
+          <button
+            type="button"
+            class="complete-button"
+            (click)="completeCourse()"
+            [disabled]="completingCourse"
+          >
+            {{ completingCourse ? 'Completing...' : 'Complete Course' }}
+          </button>
+        }
+
+
+        <!-- ============================= -->
+        <!-- COMPLETE COURSE               -->
+        <!-- Employee — after mgmt sets    -->
+        <!-- progress=100 and score > 0    -->
+        <!-- ============================= -->
+
+        @if (
+          isEmployee &&
+          !enrollment.completed &&
+          (enrollment.progress ?? 0) >= 100 &&
+          (enrollment.score ?? 0) > 0
+        ) {
+          <button
+            type="button"
+            class="complete-button"
+            (click)="completeCourse()"
+            [disabled]="completingCourse"
+          >
+            {{ completingCourse ? 'Completing...' : 'Complete Course' }}
+          </button>
+        }
+
+
+        <!-- ============================= -->
+        <!-- COURSE COMPLETED BADGE        -->
+        <!-- ============================= -->
+
+        @if (enrollment.completed) {
+
+          <div class="completed-section">
+
+            <span class="check">✓</span>
+
+            <div>
+              <strong>Course Completed</strong>
+
+              @if (enrollment.completedAt) {
+                <small>
+                  Completed: {{ enrollment.completedAt | date:'dd MMM yyyy' }}
+                </small>
+              }
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ============================= -->
+        <!-- GENERATE CERTIFICATE          -->
+        <!-- Employee + Admin + TM         -->
+        <!-- (after completed + score > 0) -->
+        <!-- ============================= -->
+
+        @if (canGenerateCertificate()) {
+          <button
+            type="button"
+            class="certificate-button"
+            (click)="generateCertificate()"
+            [disabled]="generatingCertificate"
+          >
+            {{ generatingCertificate ? 'Generating...' : 'Generate Certificate' }}
+          </button>
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</section>

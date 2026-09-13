@@ -20,6 +20,16 @@ public class CertificationController {
         return certificationService.register(dto);
     }
 
+    /**
+     * GET /api/certifications
+     * Returns all certifications across all employees.
+     * Used by Admin, Training Manager, and HR views.
+     */
+    @GetMapping
+    public List<CertificationDto> getAll() {
+        return certificationService.getAll();
+    }
+
     @GetMapping("/{id}")
     public CertificationDto getById(@PathVariable UUID id) {
         return certificationService.getById(id);
@@ -38,7 +48,6 @@ public class CertificationController {
 
     @PutMapping("/{id}/refresh-status")
     public CertificationDto refreshStatus(@PathVariable UUID id) {
-
         return certificationService.refreshStatus(id);
     }
 
@@ -57,5 +66,3 @@ public class CertificationController {
         return certificationService.getExpired();
     }
 }
-
-

@@ -1,0 +1,852 @@
+@if (isEmployee) {
+
+  <!-- ====================================== -->
+  <!-- EMPLOYEE DASHBOARD -->
+  <!-- ====================================== -->
+
+  <section class="dashboard employee-dashboard">
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <span class="eyebrow">
+          MY OVERVIEW
+        </span>
+
+        <h1>
+          Welcome, {{ employeeData.username }}
+        </h1>
+
+        <p>
+          Your personal learning and career overview.
+        </p>
+
+      </div>
+
+      <div class="date-info">
+        SkillSphere Nexus
+      </div>
+
+    </div>
+
+
+    @if (loading) {
+
+      <div class="loading">
+        Loading your dashboard...
+      </div>
+
+    }
+
+
+    @if (error) {
+
+      <div class="error-message">
+
+        <div>
+          Unable to load your dashboard data.
+        </div>
+
+        <button
+          type="button"
+          (click)="retry()"
+        >
+          Retry
+        </button>
+
+      </div>
+
+    }
+
+
+    @if (!loading && !error) {
+
+      <!-- ================================== -->
+      <!-- PERSONAL KPI CARDS -->
+      <!-- ================================== -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              My Courses
+            </span>
+
+            <span class="stat-icon">
+              ▣
+            </span>
+
+          </div>
+
+          <strong>
+            {{ employeeData.courses }}
+          </strong>
+
+          <span class="stat-description">
+            Enrolled courses
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Completed
+            </span>
+
+            <span class="stat-icon">
+              ✓
+            </span>
+
+          </div>
+
+          <strong>
+            {{ employeeData.completedCourses }}
+          </strong>
+
+          <span class="stat-description">
+            Courses completed
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              In Progress
+            </span>
+
+            <span class="stat-icon">
+              ◷
+            </span>
+
+          </div>
+
+          <strong>
+            {{ employeeData.inProgressCourses }}
+          </strong>
+
+          <span class="stat-description">
+            Courses in progress
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Completion
+            </span>
+
+            <span class="stat-icon">
+              %
+            </span>
+
+          </div>
+
+          <strong>
+            {{ employeeData.completion | number:'1.0-2' }}%
+          </strong>
+
+          <span class="stat-description">
+            Overall learning progress
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================== -->
+      <!-- PERSONAL LEARNING -->
+      <!-- ================================== -->
+
+      <div class="main-grid">
+
+        <div class="card learning-card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                MY LEARNING
+              </span>
+
+              <h2>
+                Learning Progress
+              </h2>
+
+              <p>
+                Your overall course completion
+              </p>
+
+            </div>
+
+            <div class="completion-value">
+              {{ employeeData.completion | number:'1.0-2' }}%
+            </div>
+
+          </div>
+
+
+          <div class="progress-container">
+
+            <div class="progress-track">
+
+              <div
+                class="progress-fill"
+                [style.width.%]="employeeData.completion"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <div class="progress-details">
+
+            <span>
+
+              <strong>
+                {{ employeeData.courses }}
+              </strong>
+
+              courses
+
+            </span>
+
+
+            <span>
+
+              <strong>
+                {{ employeeData.completedCourses }}
+              </strong>
+
+              completed
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- PERSONAL SUMMARY -->
+        <!-- ================================= -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                MY PROFILE
+              </span>
+
+              <h2>
+                Employee Overview
+              </h2>
+
+              <p>
+                Your SkillSphere Nexus profile
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="employee-profile">
+
+            <div class="profile-row">
+
+              <span>
+                Username
+              </span>
+
+              <strong>
+                {{ employeeData.username }}
+              </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+              <span>
+                Learning Status
+              </span>
+
+              <strong>
+                @if (employeeData.courses > 0) {
+                  Active
+                } @else {
+                  No courses enrolled
+                }
+              </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+              <span>
+                Courses Completed
+              </span>
+
+              <strong>
+                {{ employeeData.completedCourses }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================== -->
+      <!-- PERSONAL INFORMATION              -->
+      <!-- ================================== -->
+
+      <div class="bottom-grid">
+
+        <!-- My Skills card -->
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="card-eyebrow">SKILLS</span>
+              <h2>My Skills</h2>
+              <p>Your current skill profile</p>
+            </div>
+
+          </div>
+
+          <div class="employee-stat-block">
+
+            <strong class="employee-stat-number">
+              {{ mySkillsCount }}
+            </strong>
+
+            <span class="employee-stat-label">
+              {{ mySkillsCount === 1 ? 'skill' : 'skills' }} in your profile
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- My Certifications card -->
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="card-eyebrow">CERTIFICATIONS</span>
+              <h2>My Certifications</h2>
+              <p>Your earned certifications</p>
+            </div>
+
+          </div>
+
+          <div class="employee-stat-block">
+
+            <strong class="employee-stat-number">
+              {{ myCertificationsCount }}
+            </strong>
+
+            <span class="employee-stat-label">
+              {{ myCertificationsCount === 1 ? 'certification' : 'certifications' }} earned
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </section>
+
+}
+
+
+@else {
+
+  <!-- ====================================== -->
+  <!-- MANAGEMENT DASHBOARD -->
+  <!-- ====================================== -->
+
+  <section class="dashboard">
+
+    <!-- Header -->
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <span class="eyebrow">
+          OVERVIEW
+        </span>
+
+        <h1>
+          Dashboard
+        </h1>
+
+        <p>
+          Monitor skills, learning, certifications and career development.
+        </p>
+
+      </div>
+
+      <div class="date-info">
+        SkillSphere Nexus
+      </div>
+
+    </div>
+
+
+    @if (loading) {
+
+      <div class="loading">
+        Loading dashboard...
+      </div>
+
+    }
+
+
+    @if (error) {
+
+      <div class="error-message">
+
+        <div>
+          Unable to load dashboard data.
+        </div>
+
+        <button
+          type="button"
+          (click)="retry()"
+        >
+          Retry
+        </button>
+
+      </div>
+
+    }
+
+
+    @if (!loading && !error) {
+
+      <!-- KPI Cards -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Employees
+            </span>
+
+            <span class="stat-icon">
+              👥
+            </span>
+
+          </div>
+
+          <strong>
+            {{ employeeCount | number }}
+          </strong>
+
+          <span class="stat-description">
+            Total employees
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Skills
+            </span>
+
+            <span class="stat-icon">
+              ◇
+            </span>
+
+          </div>
+
+          <strong>
+            {{ data.skills | number }}
+          </strong>
+
+          <span class="stat-description">
+            Skills in catalog
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Courses
+            </span>
+
+            <span class="stat-icon">
+              ▣
+            </span>
+
+          </div>
+
+          <strong>
+            {{ data.courses | number }}
+          </strong>
+
+          <span class="stat-description">
+            Available learning paths
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Completion
+            </span>
+
+            <span class="stat-icon">
+              ✓
+            </span>
+
+          </div>
+
+          <strong>
+            {{ data.completion | number:'1.0-2' }}%
+          </strong>
+
+          <span class="stat-description">
+            Learning completion rate
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Main Grid -->
+
+      <div class="main-grid">
+
+        <!-- Learning -->
+
+        <div class="card learning-card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                LEARNING
+              </span>
+
+              <h2>
+                Learning Progress
+              </h2>
+
+              <p>
+                Overall employee learning completion
+              </p>
+
+            </div>
+
+            <div class="completion-value">
+              {{ data.completion | number:'1.0-2' }}%
+            </div>
+
+          </div>
+
+
+          <div class="progress-container">
+
+            <div class="progress-track">
+
+              <div
+                class="progress-fill"
+                [style.width.%]="data.completion"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <div class="progress-details">
+
+            <span>
+
+              <strong>
+                {{ data.courses | number }}
+              </strong>
+
+              courses
+
+            </span>
+
+
+            <span>
+
+              <strong>
+                {{ data.completion | number:'1.0-2' }}%
+              </strong>
+
+              completed
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Skill Gaps -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                SKILLS
+              </span>
+
+              <h2>
+                Skill Gaps
+              </h2>
+
+              <p>
+                Areas requiring development
+              </p>
+
+            </div>
+
+            <span class="card-link">
+              View all
+            </span>
+
+          </div>
+
+
+          <div class="skill-gap-list">
+
+            @for (
+              skill of data.skillGaps;
+              track skill.name
+            ) {
+
+              <div class="skill-gap-item">
+
+                <div class="skill-info">
+
+                  <span class="skill-name">
+                    {{ skill.name }}
+                  </span>
+
+                  <span class="skill-level">
+                    Gap
+                  </span>
+
+                </div>
+
+                <strong>
+                  +{{ skill.gap }}
+                </strong>
+
+              </div>
+
+            }
+
+
+            @if (data.skillGaps.length === 0) {
+
+              <div class="empty-state">
+                No skill gap data available.
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Bottom Grid -->
+
+      <div class="bottom-grid">
+
+        <!-- Certifications -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                CERTIFICATIONS
+              </span>
+
+              <h2>
+                Certification Overview
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="certification-stats">
+
+            <div>
+
+              <strong>
+                {{ data.activeCertifications | number }}
+              </strong>
+
+              <span>
+                Active
+              </span>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                {{ data.expiringCertifications | number }}
+              </strong>
+
+              <span>
+                Expiring
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="mini-progress">
+
+            <div class="mini-progress-track">
+
+              <div class="mini-progress-fill" [style.width.%]="data.activeCertifications > 0 ? (data.activeCertifications / (data.activeCertifications + data.expiringCertifications) * 100) : 0"></div>
+
+            </div>
+
+            <span>
+              {{ data.activeCertifications > 0 ? (data.activeCertifications / (data.activeCertifications + data.expiringCertifications) * 100).toFixed(0) : 0 }}% Valid
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Career -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+
+              <span class="card-eyebrow">
+                CAREER
+              </span>
+
+              <h2>
+                Career Development
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="career-stats">
+
+            <div class="career-stat">
+
+              <strong>
+                {{ data.careerPlans | number }}
+              </strong>
+
+              <span>
+                Career Plans
+              </span>
+
+            </div>
+
+
+            <div class="career-stat">
+
+              <strong>
+                {{ data.promotions | number }}
+              </strong>
+
+              <span>
+                Promotions
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="career-message">
+            Employee career plans and progression overview
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </section>
+
+}

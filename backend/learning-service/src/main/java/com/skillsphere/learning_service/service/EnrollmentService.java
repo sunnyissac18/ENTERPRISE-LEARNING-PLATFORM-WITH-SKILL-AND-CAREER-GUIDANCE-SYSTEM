@@ -35,8 +35,18 @@ public class EnrollmentService {
         return toDto(enrollmentRepository.save(enrollment));
     }
 
-    public List<EnrollmentDto>
-    getEmployeeEnrollments(UUID empId) {
+    /**
+     * Returns all enrollments for all employees.
+     * Used by Admin, Training Manager, and HR views.
+     */
+    public List<EnrollmentDto> getAllEnrollments() {
+        return enrollmentRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public List<EnrollmentDto> getEmployeeEnrollments(UUID empId) {
         return enrollmentRepository.findByEmpId(empId)
                 .stream()
                 .map(this::toDto)
@@ -44,11 +54,11 @@ public class EnrollmentService {
     }
 
     private EnrollmentDto toDto(Enrollment e) {
-
         return EnrollmentDto.builder()
                 .enrollmentId(e.getEnrollmentId())
                 .empId(e.getEmpId())
                 .courseId(e.getCourse().getCourseId())
+                .courseTitle(e.getCourse().getTitle())
                 .enrolledAt(e.getEnrolledAt())
                 .progress(e.getProgress())
                 .completed(e.getCompleted())

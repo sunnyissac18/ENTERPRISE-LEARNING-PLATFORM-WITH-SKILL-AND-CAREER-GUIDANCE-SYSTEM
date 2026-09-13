@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,14 @@ public class RenewalService {
     private final CertificationRenewalRepository renewalRepository;
     private final CertificationAuditService auditService;
     private final KafkaCertificationProducer kafkaProducer;
+
+    public List<RenewalDTO> getAllRenewals() {
+        return renewalRepository.findAll().stream().map(this::toDTO).toList();
+    }
+
+    public List<RenewalDTO> getByEmployee(UUID empId) {
+        return renewalRepository.findByCertificationEmployeeEmpId(empId).stream().map(this::toDTO).toList();
+    }
 
     public RenewalDTO requestRenewal(UUID certificationId,
                                      String requestedBy) {

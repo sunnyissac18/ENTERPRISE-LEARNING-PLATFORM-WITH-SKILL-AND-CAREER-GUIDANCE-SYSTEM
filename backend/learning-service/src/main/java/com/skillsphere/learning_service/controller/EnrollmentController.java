@@ -23,6 +23,11 @@ public class EnrollmentController {
         return enrollmentService.enroll(empId, courseId);
     }
 
+    @GetMapping
+    public List<EnrollmentDto> getAllEnrollments() {
+        return enrollmentService.getAllEnrollments();
+    }
+
     @GetMapping("/employee/{empId}")
     public List<EnrollmentDto> getEmployeeEnrollments(
             @PathVariable UUID empId) {

@@ -4,6 +4,7 @@ package com.skillsphere.learning_service.controller;
 import com.skillsphere.learning_service.dto.CourseDto;
 import com.skillsphere.learning_service.service.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,11 +28,13 @@ public class CourseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public CourseDto createCourse(@RequestBody CourseDto dto) {
         return courseService.createCourse(dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public void deleteCourse(@PathVariable UUID id) {
         courseService.deleteCourse(id);
     }

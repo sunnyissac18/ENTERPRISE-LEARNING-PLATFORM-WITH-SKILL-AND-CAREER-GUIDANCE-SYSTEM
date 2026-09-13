@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface CertificationRenewalRepository extends JpaRepository<CertificationRenewal, UUID> {
 
     List<CertificationRenewal> findByCertificationCertId(UUID certificationId);
+    List<CertificationRenewal> findByCertificationEmployeeEmpId(UUID empId);
 }

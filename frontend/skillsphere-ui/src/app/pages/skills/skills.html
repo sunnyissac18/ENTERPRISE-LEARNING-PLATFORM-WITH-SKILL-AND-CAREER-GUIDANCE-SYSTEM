@@ -1,0 +1,388 @@
+<section class="skills-page">
+
+  <!-- ====================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ====================================== -->
+
+  <div class="page-header">
+
+    <div>
+
+      @if (isEmployee) {
+
+        <span class="eyebrow">
+          MY SKILLS
+        </span>
+
+        <h1>
+          My Skills
+        </h1>
+
+        <p>
+          View your current skills and proficiency levels.
+        </p>
+
+      } @else {
+
+        <span class="eyebrow">
+          SKILL MANAGEMENT
+        </span>
+
+        <h1>
+          Skills
+        </h1>
+
+        <p>
+          Manage and explore the company's skill catalog.
+        </p>
+
+      }
+
+    </div>
+
+  </div>
+
+
+  <!-- ====================================== -->
+  <!-- LOADING -->
+  <!-- ====================================== -->
+
+  @if (loading) {
+
+    <div class="loading">
+      Loading skills...
+    </div>
+
+  }
+
+
+  <!-- ====================================== -->
+  <!-- ERROR -->
+  <!-- ====================================== -->
+
+  @if (error && !loading) {
+
+    <div class="error-message">
+
+      <div>
+        Unable to load skill information.
+      </div>
+
+      <button
+        type="button"
+        (click)="retry()"
+      >
+        Retry
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (!loading && !error) {
+
+
+    <!-- ==================================== -->
+    <!-- EMPLOYEE VIEW -->
+    <!-- ==================================== -->
+
+    @if (isEmployee) {
+
+      <!-- Employee Profile -->
+
+      <div class="section">
+
+        <div class="section-header">
+
+          <div>
+
+            <span class="section-eyebrow">
+              MY PROFILE
+            </span>
+
+            <h2>
+              Skill Profile
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-card">
+
+          <div class="profile-avatar">
+            {{ getInitials() }}
+          </div>
+
+
+          <div class="profile-info">
+
+            <h3>
+              {{ profile?.employee?.name || username }}
+            </h3>
+
+            <p>
+              {{ profile?.employee?.role || 'Employee' }}
+            </p>
+
+            <span>
+              {{ profile?.employee?.department || '—' }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Employee Skills -->
+
+      <div class="section">
+
+        <div class="section-header">
+
+          <div>
+
+            <span class="section-eyebrow">
+              MY SKILLS
+            </span>
+
+            <h2>
+              Current Skills
+            </h2>
+
+            <p>
+              Your current proficiency levels.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+          @for (
+            skill of skills;
+            track skill.skillId || skill.id || skill.name
+          ) {
+
+            <div class="skill-card">
+
+              <div class="skill-card-header">
+
+                <div class="skill-icon">
+                  ◇
+                </div>
+
+
+                <div>
+
+                  <h3>
+                    {{ skill.name }}
+                  </h3>
+
+                  <span>
+                    {{ skill.category || 'Skill' }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="proficiency">
+
+                <div class="proficiency-header">
+
+                  <span>
+                    Proficiency
+                  </span>
+
+                  <strong>
+                    {{ skill.proficiency ?? 0 }}/100
+                  </strong>
+
+                </div>
+
+
+                <div style="margin-top: 8px;">
+                  <input type="range" min="1" max="100" [(ngModel)]="skill.proficiency" class="proficiency-slider" style="width: 100%;" (change)="updateProficiency(skill)">
+                </div>
+
+              </div>
+
+            </div>
+
+          }
+
+
+          @if (skills.length === 0) {
+
+            <div class="empty-state">
+
+              No skills found in your profile.
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    }
+
+
+    <!-- ==================================== -->
+    <!-- MANAGEMENT VIEW & COMPANY CATALOG -->
+    <!-- ==================================== -->
+
+    <div class="section">
+
+        <div class="section-header management-header">
+
+          <div>
+
+            <span class="section-eyebrow">
+              COMPANY SKILLS
+            </span>
+
+            <h2>
+              Skill Catalog
+            </h2>
+
+            <p>
+              View the skills available across your company.
+            </p>
+
+          </div>
+
+
+          <!-- Create Skill (Admin + Training Manager only) -->
+
+          @if (canCreateSkill()) {
+
+            <button
+              type="button"
+              class="create-skill-button"
+              (click)="openCreateSkillModal()"
+            >
+              + Create Skill
+            </button>
+
+          }
+
+        </div>
+
+
+        <div class="catalog-grid">
+
+          @for (
+            skill of catalog;
+            track skill.skillId || skill.id || skill.name
+          ) {
+
+            <div class="catalog-card">
+
+              <div class="catalog-icon">
+                ◇
+              </div>
+
+
+              <div class="catalog-content">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <div>
+                    <h3>
+                      {{ skill.name }}
+                    </h3>
+
+                    <span>
+                      {{ skill.category || 'General' }}
+                    </span>
+                  </div>
+                  
+                  @if (isEmployee) {
+                    @if (hasSkill(skill.skillId || skill.id)) {
+                      <span class="added-badge" style="color: #4CAF50; font-size: 0.85rem;">✓ Added</span>
+                    } @else {
+                      <button class="add-profile-btn" (click)="optInSkill(skill.skillId || skill.id)">
+                        <span>+</span> Add to Profile
+                      </button>
+                    }
+                  }
+                </div>
+
+              </div>
+
+            </div>
+
+          }
+
+
+          @if (catalog.length === 0) {
+
+            <div class="empty-state">
+
+              No skills available in the company catalog.
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+
+
+  }
+
+  <!-- ==================================== -->
+  <!-- CREATE SKILL MODAL -->
+  <!-- ==================================== -->
+  
+  @if (showCreateSkillModal) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <h2>Create New Skill</h2>
+        
+        <form (ngSubmit)="createSkill()" #skillForm="ngForm">
+          <div class="form-group">
+            <label for="skillName">Skill Name</label>
+            <input 
+              type="text" 
+              id="skillName" 
+              name="name"
+              [(ngModel)]="newSkill.name" 
+              required
+              placeholder="e.g. Angular Development"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="skillCategory">Category</label>
+            <input 
+              type="text" 
+              id="skillCategory" 
+              name="category"
+              [(ngModel)]="newSkill.category" 
+              required
+              placeholder="e.g. Frontend"
+            />
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="closeCreateSkillModal()">Cancel</button>
+            <button type="submit" class="btn-primary" [disabled]="!skillForm.form.valid">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+</section>

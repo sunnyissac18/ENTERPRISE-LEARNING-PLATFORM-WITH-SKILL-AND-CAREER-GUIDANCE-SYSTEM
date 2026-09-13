@@ -1,0 +1,49 @@
+<div class="employees-page-container">
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Employee Directory</h1>
+      <p class="page-subtitle">View and manage all employees across the organization.</p>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading employees...</p>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table class="employees-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (emp of employees; track emp.keycloakId) {
+            <tr>
+              <td>
+                <div class="employee-name-cell">
+                  <div class="avatar">{{ emp.fullName.charAt(0) }}</div>
+                  <span class="name">{{ emp.fullName }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="role-badge" [ngClass]="emp.role ? emp.role.toLowerCase() : 'unassigned'">
+                  {{ emp.role || 'Unassigned' }}
+                </span>
+              </td>
+              <td>{{ emp.dept || 'N/A' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-state">No employees found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

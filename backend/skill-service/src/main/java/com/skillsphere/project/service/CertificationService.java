@@ -20,10 +20,8 @@ public class CertificationService {
     private final CertificationRepository certificationRepository;
 
     public CertificationDto register(CertificationDto dto) {
-
         Employee employee = employeeRepository.findById(dto.getEmpId())
-                .orElseThrow(() ->
-                        new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         Certification certification = Certification.builder()
                 .employee(employee)
@@ -35,14 +33,24 @@ public class CertificationService {
                 .status(calculateStatus(dto.getExpiry()))
                 .build();
 
-        Certification saved =certificationRepository.save(certification);
+        Certification saved = certificationRepository.save(certification);
         return toDTO(saved);
     }
 
-    public CertificationDto getById(UUID id) {
-        Certification certification =certificationRepository.findById(id)
-                .orElseThrow(() ->new RuntimeException("Certification not found"));
+    /**
+     * Returns all certifications for all employees.
+     * Used by Admin, Training Manager, and HR views.
+     */
+    public List<CertificationDto> getAll() {
+        return certificationRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
 
+    public CertificationDto getById(UUID id) {
+        Certification certification = certificationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Certification not found"));
         return toDTO(certification);
     }
 
@@ -54,10 +62,9 @@ public class CertificationService {
                 .toList();
     }
 
-    public CertificationDto update(UUID id,CertificationDto dto) {
-
-        Certification certification =certificationRepository.findById(id)
-                .orElseThrow(() ->new RuntimeException("Certification not found"));
+    public CertificationDto update(UUID id, CertificationDto dto) {
+        Certification certification = certificationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Certification not found"));
 
         certification.setName(dto.getName());
         certification.setIssuingOrganization(dto.getIssuingOrganization());
@@ -70,8 +77,7 @@ public class CertificationService {
 
     public void delete(UUID id) {
         if (!certificationRepository.existsById(id)) {
-            throw new RuntimeException(
-                    "Certification not found");
+            throw new RuntimeException("Certification not found");
         }
         certificationRepository.deleteById(id);
     }
@@ -99,33 +105,22 @@ public class CertificationService {
     }
 
     public CertificationDto refreshStatus(UUID id) {
-
         Certification certification = certificationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Certification not found"));
-
         certification.setStatus(calculateStatus(certification.getExpiry()));
         Certification saved = certificationRepository.save(certification);
         return toDTO(saved);
     }
 
     private Certification.Status calculateStatus(LocalDate expiry) {
-
         LocalDate today = LocalDate.now();
-
-        if (expiry == null) {
-            return Certification.Status.EXPIRED;
-        }
-        if (expiry.isBefore(today)) {
-            return Certification.Status.EXPIRED;
-        }
-        if (!expiry.isAfter(today.plusDays(30))) {
-            return Certification.Status.PENDING_RENEWAL;
-        }
+        if (expiry == null) return Certification.Status.EXPIRED;
+        if (expiry.isBefore(today)) return Certification.Status.EXPIRED;
+        if (!expiry.isAfter(today.plusDays(30))) return Certification.Status.PENDING_RENEWAL;
         return Certification.Status.VALID;
     }
 
-    private CertificationDto toDTO(
-            Certification certification) {
+    private CertificationDto toDTO(Certification certification) {
         return CertificationDto.builder()
                 .certId(certification.getCertId())
                 .empId(certification.getEmployee().getEmpId())
@@ -138,5 +133,4 @@ public class CertificationService {
                 .status(certification.getStatus().name())
                 .build();
     }
-
 }

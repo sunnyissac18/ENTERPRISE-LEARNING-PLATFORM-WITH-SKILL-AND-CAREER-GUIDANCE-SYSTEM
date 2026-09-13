@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -14,6 +15,16 @@ import java.util.UUID;
 public class RenewalController {
 
     private final RenewalService renewalService;
+
+    @GetMapping
+    public List<RenewalDTO> getAllRenewals() {
+        return renewalService.getAllRenewals();
+    }
+
+    @GetMapping("/employee/{empId}")
+    public List<RenewalDTO> getEmployeeRenewals(@PathVariable UUID empId) {
+        return renewalService.getByEmployee(empId);
+    }
 
     @PostMapping("/{certificationId}")
     public RenewalDTO request(@PathVariable UUID certificationId,

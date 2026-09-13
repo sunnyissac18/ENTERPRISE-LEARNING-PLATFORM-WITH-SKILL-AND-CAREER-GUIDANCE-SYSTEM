@@ -1,1 +1,121 @@
-<router-outlet></router-outlet>
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">S</div>
+
+      <div class="brand-text">
+        <span class="brand-name">SkillSphere</span>
+        <span class="brand-subtitle">NEXUS</span>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <div class="nav-section-title">MAIN</div>
+
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
+      </a>
+      
+      <a routerLink="/skills" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">◇</span>
+        <span>Skills</span>
+      </a>
+
+      <a routerLink="/learning/courses" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Learning</span>
+      </a>
+
+      <a routerLink="/certifications" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">✓</span>
+        <span>Certifications</span>
+      </a>
+
+      <a routerLink="/career" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Career</span>
+      </a>
+
+      <a routerLink="/jobs" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Jobs</span>
+      </a>
+
+      @if (canViewEmployees()) {
+        <a routerLink="/employees" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">♙</span>
+          <span>Employees</span>
+        </a>
+      }
+
+      @if (canViewAnalytics()) {
+        <a routerLink="/analytics" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">▥</span>
+          <span>Analytics</span>
+        </a>
+      }
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="system-status">
+        <span class="status-dot"></span>
+
+        <div>
+          <span class="status-title">System Status</span>
+          <span class="status-text">All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="main-area">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb">
+          SkillSphere Nexus
+          <span>/</span>
+          {{ currentRouteName }}
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="notification-button" type="button">
+          <span>♢</span>
+          <span class="notification-dot"></span>
+        </button>
+
+        <div class="user-profile">
+          <div class="avatar">
+            {{ getInitials() }}
+          </div>
+
+          <div class="user-info">
+            <span class="username">
+              {{ auth.getFullName() }}
+            </span>
+
+            <span class="user-role">
+              {{ getPrimaryRole() }}
+            </span>
+          </div>
+        </div>
+
+        <button class="logout-button" type="button" (click)="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

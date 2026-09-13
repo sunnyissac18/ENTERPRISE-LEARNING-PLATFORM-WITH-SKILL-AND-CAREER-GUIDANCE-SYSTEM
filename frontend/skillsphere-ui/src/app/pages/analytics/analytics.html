@@ -1,0 +1,40 @@
+<div class="page">
+  <h1>Career Analytics</h1>
+
+  <div class="analytics-grid" *ngIf="analytics">
+    <div class="analytics-card">
+      <h3>Total Career Plans</h3>
+      <p>{{ analytics.totalCareerPlans }}</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Active Career Plans</h3>
+      <p>{{ analytics.activeCareerPlans }}</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Completed Plans</h3>
+      <p>{{ analytics.completedPlans }}</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Promotion Eligible</h3>
+      <p>{{ analytics.promotionEligible }}</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Average Progress</h3>
+      <p>{{ analytics.averageProgress | number:'1.0-2' }}%</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Skill Coverage</h3>
+      <p>{{ analytics.skillCoverage | number:'1.0-2' }}%</p>
+    </div>
+
+    <div class="analytics-card">
+      <h3>Active Jobs</h3>
+      <p>{{ analytics.activeJobs }}</p>
+    </div>
+  </div>
+</div>

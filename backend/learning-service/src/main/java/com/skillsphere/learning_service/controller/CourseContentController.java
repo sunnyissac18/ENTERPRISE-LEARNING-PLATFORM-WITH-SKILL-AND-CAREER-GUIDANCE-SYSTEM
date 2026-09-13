@@ -3,6 +3,7 @@ package com.skillsphere.learning_service.controller;
 import com.skillsphere.learning_service.entity.CourseContent;
 import com.skillsphere.learning_service.service.CourseContentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class CourseContentController {
     private final CourseContentService courseContentService;
 
     @PostMapping("/course/{courseId}")
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public CourseContent addContent(
             @PathVariable UUID courseId,
             @RequestBody CourseContent content) {

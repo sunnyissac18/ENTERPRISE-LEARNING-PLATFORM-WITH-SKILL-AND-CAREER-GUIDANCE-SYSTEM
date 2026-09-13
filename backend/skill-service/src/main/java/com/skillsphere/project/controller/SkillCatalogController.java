@@ -22,9 +22,10 @@ public	class	SkillCatalogController	{
 	}
 
 	@PostMapping
-	@PreAuthorize("hasRole('HR')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'TRAINING_MANAGER')")
 	public SkillDto addSkill(@RequestBody SkillDto	dto){
 
 		return	skillCatalogService.addSkill(dto);
 	}
 }
+

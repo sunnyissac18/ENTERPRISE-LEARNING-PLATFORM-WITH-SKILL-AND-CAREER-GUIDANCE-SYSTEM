@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkillProfileService {
 
-  private baseUrl = 'http://localhost:8080/api/skills';
+  private baseUrl = `${environment.apiUrl}/api/skills`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,1 +1,95 @@
-<p>course-details works!</p>
+<section class="course-details-page">
+  @if (loading) {
+    <div class="loading">Loading course...</div>
+  }
+
+  @if (error) {
+    <div class="error-message">
+      <h2>Unable to load course</h2>
+
+      <p>The requested course could not be loaded.</p>
+
+      <button type="button" (click)="goBack()">Back to Courses</button>
+    </div>
+  }
+
+  @if (!loading && !error && course) {
+    <button type="button" class="back-button" (click)="goBack()">← Back to Courses</button>
+
+    <div class="course-hero">
+      <div class="course-heading">
+        <span class="course-type">
+          {{ course.type || 'COURSE' }}
+        </span>
+
+        <h1>
+          {{ course.title }}
+        </h1>
+
+        <p>
+          {{ course.description }}
+        </p>
+      </div>
+
+      @if (course.active) {
+        <span class="active-badge"> Active </span>
+      }
+    </div>
+
+    <div class="course-content">
+      <div class="main-card">
+        <span class="section-eyebrow"> ABOUT THIS COURSE </span>
+
+        <h2>Course Overview</h2>
+
+        <p>
+          {{ course.description }}
+        </p>
+      </div>
+
+      <div class="side-card">
+        <span class="section-eyebrow"> COURSE INFORMATION </span>
+
+        <div class="info-row">
+          <span> Instructor </span>
+
+          <strong>
+            {{ course.instructor || '—' }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span> Duration </span>
+
+          <strong> {{ course.duration || 0 }} hours </strong>
+        </div>
+
+        <div class="info-row">
+          <span> Rating </span>
+
+          <strong> ★ {{ course.rating ?? '—' }} </strong>
+        </div>
+
+        <div class="info-row">
+          <span> Status </span>
+
+          <strong>
+            {{ course.active ? 'Active' : 'Inactive' }}
+          </strong>
+        </div>
+
+        @if (isEmployee && !isManagement) {
+          @if (enrolledCourseId) {
+            <button type="button" class="enroll-button" [routerLink]="['/learning/enrollment', enrolledEnrollmentId]">
+              View Enrollment
+            </button>
+          } @else {
+            <button type="button" class="enroll-button" [disabled]="enrolling || !course.active" (click)="enroll()">
+              {{ enrolling ? 'Enrolling...' : 'Enroll in Course' }}
+            </button>
+          }
+        }
+      </div>
+    </div>
+  }
+</section>

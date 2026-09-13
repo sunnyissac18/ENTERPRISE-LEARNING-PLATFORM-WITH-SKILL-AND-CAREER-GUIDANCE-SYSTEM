@@ -5,6 +5,7 @@ import com.skillsphere.learning_service.entity.LearningPath;
 import com.skillsphere.learning_service.entity.LearningPathCourse;
 import com.skillsphere.learning_service.service.LearningPathService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class LearningPathController {
     private final LearningPathService learningPathService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public LearningPath createPath(
             @RequestBody LearningPath path) {
 
@@ -25,6 +27,7 @@ public class LearningPathController {
     }
 
     @PostMapping("/{pathId}/courses/{courseId}")
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public LearningPath addCourse(
             @PathVariable UUID pathId,
             @PathVariable UUID courseId,

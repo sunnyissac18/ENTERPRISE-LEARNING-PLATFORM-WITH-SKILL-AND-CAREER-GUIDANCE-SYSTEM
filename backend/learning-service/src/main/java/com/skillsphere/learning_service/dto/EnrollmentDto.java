@@ -1,6 +1,5 @@
 package com.skillsphere.learning_service.dto;
 
-import com.skillsphere.learning_service.entity.Course;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +17,10 @@ public class EnrollmentDto {
     private UUID enrollmentId;
     private UUID empId;
     private UUID courseId;
+
+    /** Populated from the related Course entity for management views. */
+    private String courseTitle;
+
     private LocalDateTime enrolledAt;
     private Integer progress;
     private Boolean completed;

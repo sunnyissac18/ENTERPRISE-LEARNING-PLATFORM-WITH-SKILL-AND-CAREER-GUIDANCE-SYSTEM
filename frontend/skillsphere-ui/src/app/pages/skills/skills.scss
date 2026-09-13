@@ -1,0 +1,663 @@
+.skills-page {
+
+  padding: 32px;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+}
+
+
+/* ==========================================
+   PAGE HEADER
+   ========================================== */
+
+.page-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  margin-bottom: 32px;
+
+}
+
+
+.eyebrow,
+.section-eyebrow {
+
+  display: block;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.4px;
+
+  color: #7c8494;
+
+  margin-bottom: 8px;
+
+}
+
+
+.page-header h1 {
+
+  margin: 0;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  color: #111827;
+
+}
+
+
+.page-header p {
+
+  margin: 8px 0 0;
+
+  color: #6b7280;
+
+}
+
+
+/* ==========================================
+   SECTIONS
+   ========================================== */
+
+.section {
+
+  margin-bottom: 28px;
+
+}
+
+
+.section-header {
+
+  margin-bottom: 16px;
+
+}
+
+
+.section-header h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+  color: #111827;
+
+}
+
+
+.section-header p {
+
+  margin: 6px 0 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+}
+
+
+.management-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 20px;
+
+}
+
+
+/* ==========================================
+   CREATE SKILL BUTTON
+   ========================================== */
+
+.create-skill-button {
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 10px 16px;
+
+  background: #111827;
+
+  color: #fff;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+
+}
+
+
+.create-skill-button:hover {
+
+  background: #252a33;
+
+  transform: translateY(-1px);
+
+}
+
+
+/* ==========================================
+   PROFILE
+   ========================================== */
+
+.profile-card {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 24px;
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+}
+
+
+.profile-avatar {
+
+  width: 64px;
+
+  height: 64px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #111827;
+
+  color: #fff;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+}
+
+
+.profile-info h3 {
+
+  margin: 0 0 4px;
+
+  font-size: 19px;
+
+}
+
+
+.profile-info p {
+
+  margin: 0 0 4px;
+
+  color: #4b5563;
+
+}
+
+
+.profile-info span {
+
+  font-size: 13px;
+
+  color: #9ca3af;
+
+}
+
+
+/* ==========================================
+   SKILL GRID
+   ========================================== */
+
+.skills-grid,
+.catalog-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+
+}
+
+
+.skill-card,
+.catalog-card {
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+}
+
+
+/* ==========================================
+   SKILL CARD
+   ========================================== */
+
+.skill-card-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+}
+
+
+.skill-icon,
+.catalog-icon {
+
+  width: 42px;
+
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #f3f4f6;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+
+}
+
+
+.skill-card h3,
+.catalog-card h3 {
+
+  margin: 0;
+
+  font-size: 16px;
+
+}
+
+
+.skill-card span,
+.catalog-card span {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: #8a92a1;
+
+  font-size: 12px;
+
+}
+
+
+/* ==========================================
+   PROFICIENCY
+   ========================================== */
+
+.proficiency {
+
+  margin-top: 24px;
+
+}
+
+
+.proficiency-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+
+  font-size: 13px;
+
+}
+
+
+.proficiency-header strong {
+
+  color: #111827;
+
+}
+
+
+.progress-track {
+
+  height: 7px;
+
+  border-radius: 10px;
+
+  background: #e5e7eb;
+
+  overflow: hidden;
+
+}
+
+
+.progress-fill {
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #111827;
+
+}
+
+
+/* ==========================================
+   CATALOG
+   ========================================== */
+
+.catalog-card {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+}
+
+
+.catalog-content {
+  min-width: 0;
+  flex: 1;
+}
+
+
+.catalog-content h3 {
+
+  overflow-wrap: anywhere;
+
+}
+
+
+/* ==========================================
+   LOADING
+   ========================================== */
+
+.loading {
+
+  padding: 40px 0;
+
+  color: #6b7280;
+
+}
+
+
+/* ==========================================
+   ERROR
+   ========================================== */
+
+.error-message {
+
+  padding: 18px;
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  color: #b42318;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 16px;
+
+}
+
+
+.error-message button {
+
+  border: 1px solid #d1d5db;
+
+  background: #fff;
+
+  padding: 8px 14px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+}
+
+
+.error-message button:hover {
+
+  background: #f5f6f8;
+
+}
+
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+.empty-state {
+
+  padding: 30px;
+
+  background: #fff;
+
+  border: 1px dashed #d1d5db;
+
+  border-radius: 10px;
+
+  color: #6b7280;
+
+  grid-column: 1 / -1;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1000px) {
+
+  .skills-grid,
+  .catalog-grid {
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .skills-page {
+
+    padding: 20px;
+
+  }
+
+
+  .skills-grid,
+  .catalog-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .management-header {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+
+  .create-skill-button {
+
+    width: 100%;
+
+  }
+
+
+  .error-message {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-cancel {
+      background: #f1f1f1;
+      color: #333;
+      &:hover { background: #e1e1e1; }
+    }
+
+    .btn-primary {
+      background: #111827;
+      color: white;
+      &:hover { background: #374151; }
+      &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+  }
+}
+
+.add-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #3b82f6;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  span {
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: #2563eb;
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+

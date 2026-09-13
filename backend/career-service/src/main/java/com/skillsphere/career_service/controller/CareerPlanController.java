@@ -11,7 +11,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/career/plans")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class CareerPlanController {
 
     private final CareerPlanService service;
@@ -27,8 +26,8 @@ public class CareerPlanController {
         return service.getAll();
     }
 
-    @GetMapping("/id")
-    public CareerPlanDto getById(@PathVariable() UUID id){
+    @GetMapping("/{id}")
+    public CareerPlanDto getById(@PathVariable UUID id){
         return service.getById(id);
     }
 

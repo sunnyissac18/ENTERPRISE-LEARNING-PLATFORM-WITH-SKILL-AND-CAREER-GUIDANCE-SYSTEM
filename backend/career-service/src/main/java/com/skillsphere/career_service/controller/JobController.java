@@ -3,6 +3,7 @@ package com.skillsphere.career_service.controller;
 import com.skillsphere.career_service.dto.JobDto;
 import com.skillsphere.career_service.service.JobService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,12 +12,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/career/jobs")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class JobController {
 
     private final JobService service;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public JobDto create(@RequestBody JobDto dto){
         return service.create(dto);
     }
@@ -32,6 +33,7 @@ public class JobController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TRAINING_MANAGER','ADMIN')")
     public void delete(@PathVariable UUID id){
         service.delete(id);
     }

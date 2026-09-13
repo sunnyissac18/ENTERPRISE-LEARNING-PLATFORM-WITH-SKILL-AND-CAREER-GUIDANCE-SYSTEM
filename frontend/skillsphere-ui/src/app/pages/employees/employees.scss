@@ -1,0 +1,162 @@
+.employees-page-container {
+  padding: 30px 40px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  
+  th, td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  tbody tr {
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: #f9fafb;
+    }
+    
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.employee-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.name {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1.05rem;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #f3f4f6;
+  color: #374151;
+  text-transform: capitalize;
+
+  &.admin {
+    background-color: #fef2f2;
+    color: #dc2626;
+  }
+  &.developer {
+    background-color: #eff6ff;
+    color: #2563eb;
+  }
+  &.manager {
+    background-color: #f0fdf4;
+    color: #16a34a;
+  }
+  &.hr {
+    background-color: #fdf4ff;
+    color: #c026d3;
+  }
+  &.training_manager {
+    background-color: #fffbeb;
+    color: #d97706;
+  }
+  &.tech_lead {
+    background-color: #f5f3ff;
+    color: #7c3aed;
+  }
+  &.unassigned {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px !important;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #6b7280;
+  font-size: 1.1rem;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
