@@ -60,11 +60,6 @@ public class KeycloakEmployeeSyncService {
                 continue;
             }
 
-            // Already synchronized
-            if (employeeRepository.existsByKeycloakId(keycloakId)) {
-                continue;
-            }
-
             String firstName =
                     (String) user.getOrDefault("firstName", "");
 
@@ -81,12 +76,53 @@ public class KeycloakEmployeeSyncService {
                 fullName = username;
             }
 
-            Employee employee = Employee.builder()
-                    .keycloakId(keycloakId)
-                    .fullName(fullName)
-                    .role(Employee.Role.DEVELOPER)
-                    .dept("Engineering")
-                    .build();
+            // Extract custom attributes from Keycloak
+            Map<String, List<String>> attributes = (Map<String, List<String>>) user.get("attributes");
+            
+            String dept = "Unassigned";
+            String roleStr = "DEVELOPER";
+
+            if (attributes != null) {
+                if (attributes.containsKey("department") && !attributes.get("department").isEmpty()) {
+                    dept = attributes.get("department").get(0);
+                }
+                if (attributes.containsKey("role") && !attributes.get("role").isEmpty()) {
+                    roleStr = attributes.get("role").get(0).toUpperCase();
+                }
+            }
+
+            Employee.Role roleEnum;
+            try {
+                roleEnum = Employee.Role.valueOf(roleStr);
+            } catch (Exception e) {
+                roleEnum = Employee.Role.DEVELOPER; // fallback
+            }
+
+            Employee employee = employeeRepository.findByKeycloakId(keycloakId).orElse(null);
+            if (employee == null) {
+                employee = Employee.builder()
+                        .keycloakId(keycloakId)
+                        .fullName(fullName)
+                        .role(roleEnum)
+                        .dept(dept)
+                        .build();
+            } else {
+                employee.setFullName(fullName);
+                // Only update if not already set or if explicitly set in Keycloak attributes
+                if (attributes != null && attributes.containsKey("department")) {
+                     employee.setDept(dept);
+                }
+                if (attributes != null && attributes.containsKey("role")) {
+                     employee.setRole(roleEnum);
+                }
+                // If it's empty, give it a default so it doesn't show N/A
+                if (employee.getDept() == null || employee.getDept().isBlank() || employee.getDept().equals("N/A")) {
+                    employee.setDept("Engineering");
+                }
+                if (employee.getRole() == null) {
+                    employee.setRole(Employee.Role.DEVELOPER);
+                }
+            }
 
             employeeRepository.save(employee);
         }

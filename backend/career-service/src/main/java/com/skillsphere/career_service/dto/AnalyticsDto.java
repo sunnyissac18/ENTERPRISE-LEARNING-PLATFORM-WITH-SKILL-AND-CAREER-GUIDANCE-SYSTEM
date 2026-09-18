@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -18,5 +20,5 @@ public class AnalyticsDto {
     private double averageProgress;
     private double skillCoverage;
     private long activeJobs;
-
+    private List<Map<String, Object>> skillGaps;
 }

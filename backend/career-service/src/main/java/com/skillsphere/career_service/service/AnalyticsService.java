@@ -7,6 +7,9 @@ import com.skillsphere.career_service.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AnalyticsService {
@@ -32,6 +35,7 @@ public class AnalyticsService {
                 .averageProgress(averageProgress)
                 .skillCoverage(calculateSkillCoverage(plans))
                 .activeJobs(jobRepository.findByActiveTrue().size())
+                .skillGaps(calculateTopSkillGaps(plans))
                 .build();
     }
     private double calculateSkillCoverage(
@@ -42,5 +46,33 @@ public class AnalyticsService {
                         p.getSkillGaps().isBlank())
                 .count();
         return (withoutGap * 100.0) / plans.size();
+    }
+
+    private List<Map<String, Object>> calculateTopSkillGaps(List<CareerPlan> plans) {
+        Map<String, Integer> gapCounts = new HashMap<>();
+        
+        for (CareerPlan plan : plans) {
+            String gaps = plan.getSkillGaps();
+            if (gaps != null && !gaps.isBlank()) {
+                String[] skills = gaps.split(",");
+                for (String skill : skills) {
+                    String trimmedSkill = skill.trim();
+                    if (!trimmedSkill.isEmpty()) {
+                        gapCounts.put(trimmedSkill, gapCounts.getOrDefault(trimmedSkill, 0) + 1);
+                    }
+                }
+            }
+        }
+        
+        return gapCounts.entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", entry.getKey());
+                    map.put("gap", entry.getValue());
+                    return map;
+                })
+                .sorted((a, b) -> Integer.compare((Integer) b.get("gap"), (Integer) a.get("gap")))
+                .limit(5)
+                .collect(Collectors.toList());
     }
 }

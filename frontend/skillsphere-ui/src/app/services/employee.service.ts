@@ -17,4 +17,8 @@ export class EmployeeService {
   getCurrentEmployee() {
     return this.http.get<any>(`${this.baseUrl}/me`);
   }
+
+  syncEmployees() {
+    return this.http.post(`${this.baseUrl}/sync`, {}, { responseType: 'text' });
+  }
 }

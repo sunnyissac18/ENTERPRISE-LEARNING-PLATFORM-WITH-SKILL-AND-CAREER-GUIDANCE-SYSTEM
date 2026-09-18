@@ -220,7 +220,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     this.error = false;
 
-    const username = this.auth.getUsername() || 'Employee';
+    const username = this.auth.getFullName() || this.auth.getUsername() || 'Employee';
 
     /*
      * Load enrollments, skill profile, and certifications

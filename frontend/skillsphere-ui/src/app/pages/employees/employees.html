@@ -4,6 +4,12 @@
       <h1 class="page-title">Employee Directory</h1>
       <p class="page-subtitle">View and manage all employees across the organization.</p>
     </div>
+    <div class="header-right">
+      <button class="primary-btn sync-btn" (click)="syncKeycloak()" [disabled]="syncing">
+        <span class="icon">⟳</span>
+        {{ syncing ? 'Syncing...' : 'Sync Keycloak' }}
+      </button>
+    </div>
   </div>
 
   @if (loading) {
@@ -32,7 +38,7 @@
               </td>
               <td>
                 <span class="role-badge" [ngClass]="emp.role ? emp.role.toLowerCase() : 'unassigned'">
-                  {{ emp.role || 'Unassigned' }}
+                  {{ formatRole(emp.role) }}
                 </span>
               </td>
               <td>{{ emp.dept || 'N/A' }}</td>

@@ -64,7 +64,7 @@ export class SkillsComponent implements OnInit {
     console.log('SkillsComponent initialized');
 
     this.username =
-      this.auth.getUsername() ?? 'User';
+      this.auth.getFullName() || this.auth.getUsername() || 'User';
 
 
     /*

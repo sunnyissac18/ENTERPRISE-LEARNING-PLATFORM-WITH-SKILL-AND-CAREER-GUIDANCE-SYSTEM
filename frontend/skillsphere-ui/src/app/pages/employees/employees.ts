@@ -12,6 +12,7 @@ import { EmployeeService } from '../../services/employee.service';
 export class EmployeesComponent implements OnInit {
   employees: any[] = [];
   loading = true;
+  syncing = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -31,5 +32,40 @@ export class EmployeesComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  syncKeycloak(): void {
+    if (this.syncing) return;
+    this.syncing = true;
+    
+    this.employeeService.syncEmployees().subscribe({
+      next: () => {
+        // Reload employees after sync
+        this.employeeService.getAllEmployees().subscribe({
+          next: (data: any[]) => {
+            this.employees = data;
+            this.syncing = false;
+            this.cdr.detectChanges();
+          },
+          error: (err: any) => {
+            console.error('Failed to reload employees after sync', err);
+            this.syncing = false;
+            this.cdr.detectChanges();
+          }
+        });
+      },
+      error: (err: any) => {
+        console.error('Failed to sync employees', err);
+        this.syncing = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  formatRole(role: string): string {
+    if (!role) return 'Unassigned';
+    return role.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(' ');
   }
 }
